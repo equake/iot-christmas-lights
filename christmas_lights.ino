@@ -12,6 +12,7 @@
 
 char mqtt_server[40];
 char mqtt_port[6] = "1883";
+bool shouldSaveConfig = false;
 
 Ticker ticker;
 
@@ -21,8 +22,6 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 
-WiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
-WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
 
 void setup() {
     Serial.begin(115200);
@@ -32,12 +31,16 @@ void setup() {
     ticker.attach(0.6, toggleLed);
 
     configFileRead();
+
+    WiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
+    WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
     
     WiFiManager wifiManager;
-    //wifiManager.resetSettings();     //reset settings - for testing
+    // wifiManager.resetSettings();     //reset settings - for testing
     wifiManager.addParameter(&custom_mqtt_server);
     wifiManager.addParameter(&custom_mqtt_port);
     wifiManager.setAPCallback(configModeCallback);
+    wifiManager.setSaveConfigCallback(configFileWriteCallback);
     wifiManager.setConfigPortalTimeout(120);    
     if (!wifiManager.autoConnect("HO-HO-HO")) {
         Serial.println("Failed to connect and hit timeout");
@@ -45,11 +48,19 @@ void setup() {
         delay(1000);
     }
 
+    strcpy(mqtt_server, custom_mqtt_server.getValue());
+    strcpy(mqtt_port, custom_mqtt_port.getValue());
+    configFileWrite();
+
     Serial.println("Connected... yeey :)");
-    ticker.detach();
-    
+
+    ticker.detach();    
     digitalWrite(BUILTIN_LED, LOW);     //keep LED on
-    //   client.setServer(mqtt_server, 1883);
+
+    Serial.println(mqtt_server);
+    Serial.println(mqtt_port);
+    
+    // client.setServer(mqtt_server, atoi(mqtt_port));
 }
 
 void loop() {
@@ -64,16 +75,16 @@ void toggleLed() {
 }
 
 void configFileRead() {
-    Serial.println("mounting FS...");
+    Serial.println("Mounting FS...");
 
     if (SPIFFS.begin()) {
-        Serial.println("mounted file system");
+        Serial.println("Mounted file system");
         if (SPIFFS.exists("/config.json")) {
             //file exists, reading and loading
-            Serial.println("reading config file");
+            Serial.println("Reading config file");
             File configFile = SPIFFS.open("/config.json", "r");
             if (configFile) {
-                Serial.println("opened config file");
+                Serial.println("Opened config file");
                 size_t size = configFile.size();
                 // Allocate a buffer to store contents of the file.
                 std::unique_ptr<char[]> buf(new char[size]);
@@ -82,39 +93,39 @@ void configFileRead() {
                 DynamicJsonBuffer jsonBuffer;
                 JsonObject& json = jsonBuffer.parseObject(buf.get());
                 json.printTo(Serial);
+                Serial.print("\n");
                 if (json.success()) {
-                    Serial.println("\nparsed json");
+                    Serial.println("Parsed json");
 
                     strcpy(mqtt_server, json["mqtt_server"]);
                     strcpy(mqtt_port, json["mqtt_port"]);
-                    // strcpy(blynk_token, json["blynk_token"]);
 
                 } else {
-                    Serial.println("failed to load json config");
+                    Serial.println("Failed to load json config");
                 }
             }
         }
     } else {
-        Serial.println("failed to mount FS");
+        Serial.println("Failed to mount FS");
     }
 }
 
 void configFileWrite() {
     if (shouldSaveConfig) {
-        Serial.println("saving config");
+        Serial.println("Saving config");
         DynamicJsonBuffer jsonBuffer;
         JsonObject& json = jsonBuffer.createObject();
         json["mqtt_server"] = mqtt_server;
         json["mqtt_port"] = mqtt_port;
-        json["blynk_token"] = blynk_token;
     
         File configFile = SPIFFS.open("/config.json", "w");
         if (!configFile) {
-            Serial.println("failed to open config file for writing");
+            Serial.println("Failed to open config file for writing");
         }
     
         json.printTo(Serial);
         json.printTo(configFile);
+        Serial.print("\n");
         configFile.close();
     }
 }
@@ -122,7 +133,7 @@ void configFileWrite() {
 void configFileWriteCallback() {
     Serial.println("Should save config");
     shouldSaveConfig = true;
-  }s
+}
 
 /**
  * Callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
