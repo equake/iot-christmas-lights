@@ -11,7 +11,8 @@
                 "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WebServer/src",
                 "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/DNSServer/src",
                 "/home/marcos/Arduino/libraries/FastLED",
-                "/home/marcos/Arduino/libraries/ArduinoJson/src"
+                "/home/marcos/Arduino/libraries/ArduinoJson/src",
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/Ticker"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
@@ -25,7 +26,8 @@
                     "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WebServer/src",
                     "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/DNSServer/src",
                     "/home/marcos/Arduino/libraries/FastLED",
-                    "/home/marcos/Arduino/libraries/ArduinoJson/src"
+                    "/home/marcos/Arduino/libraries/ArduinoJson/src",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/Ticker"
                 ]
             },
             "intelliSenseMode": "clang-x64"

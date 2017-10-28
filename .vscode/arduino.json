@@ -2,5 +2,6 @@
     "sketch": "christmas_lights.ino",
     "board": "esp8266com:esp8266:d1_mini",
     "configuration": "CpuFrequency=80,UploadSpeed=921600,FlashSize=4M3M",
-    "output": "../.vscode_build/christmas_lights"
+    "output": "../.vscode_build/christmas_lights",
+    "port": "/dev/ttyUSB1"
 }
