@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/cores/esp8266",
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/tools/sdk/include/",
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WiFi/src",
+                "/home/marcos/Arduino/libraries/PubSubClient/src",
+                "/home/marcos/Arduino/libraries/WiFiManager",
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WebServer/src",
+                "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/DNSServer/src",
+                "/home/marcos/Arduino/libraries/FastLED",
+                "/home/marcos/Arduino/libraries/ArduinoJson/src"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": false,
+                "path": [
+                    "${workspaceRoot}",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/cores/esp8266",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/tools/sdk/include/",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WiFi/src",
+                    "/home/marcos/Arduino/libraries/PubSubClient/src",
+                    "/home/marcos/Arduino/libraries/WiFiManager",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/ESP8266WebServer/src",
+                    "/home/marcos/Arduino/hardware/esp8266com/esp8266/libraries/DNSServer/src",
+                    "/home/marcos/Arduino/libraries/FastLED",
+                    "/home/marcos/Arduino/libraries/ArduinoJson/src"
+                ]
+            },
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 3
+}
